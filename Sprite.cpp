@@ -63,7 +63,11 @@ void Sprite::setVelocityX(int newdX)
 
 void Sprite::update(long elapsedTime)
 {
-	y += dy * elapsedTime;
+	if (dy != 0)
+	{ 
+		y += dy * elapsedTime; 
+		dy = 0;
+	}
 	x += dx * elapsedTime;
 }
 

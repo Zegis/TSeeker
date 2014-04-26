@@ -3,6 +3,7 @@
 #include <allegro5\allegro5.h>
 #include <allegro5\allegro_primitives.h>
 #include "Sprite.h"
+#include "TileMap.h"
 
 class Game
 {
@@ -16,8 +17,12 @@ private:
 	void DeinitializeAllegro();
 
 	Sprite* player;
+	TileMap* map;
 
 	ALLEGRO_BITMAP * playerBMP;
+
+	int TILE_SIZE;
+	int YOFFSET;
 
 	void Draw();
 

@@ -5,10 +5,12 @@ Game::Game(void)
 {
 	if(InitializeAllegro())
 	{
-		display = al_create_display(800,600);
+		TILE_SIZE = 50;
+		YOFFSET = 150;
+
+		display = al_create_display(350,500);
 		evQueue = al_create_event_queue();
 		timer = al_create_timer(1.0 / 50);
-
 
 		al_register_event_source(evQueue, al_get_keyboard_event_source());
 		al_register_event_source(evQueue, al_get_timer_event_source(timer));
@@ -16,11 +18,12 @@ Game::Game(void)
 		playerBMP = al_create_bitmap(50,50);
 		al_set_target_bitmap(playerBMP);
 
-		al_draw_filled_circle(25,25,20,al_map_rgb(255,255,255));
+		al_draw_filled_circle(25,25,25,al_map_rgb(255,255,255));
 
 		player = new Sprite(playerBMP);
+		map = new TileMap();
 
-		
+		map->LoadMap("map01.txt");
 	}
 }
 
@@ -35,10 +38,13 @@ bool Game::InitializeAllegro()
 
 Game::~Game(void)
 {
-	DeinitializeAllegro();
+
 	al_destroy_bitmap(playerBMP);
 
+	delete map;
 	delete player;
+
+	DeinitializeAllegro();
 }
 
 void Game::DeinitializeAllegro()
@@ -52,8 +58,8 @@ void Game::GameLoop()
 {
 	ALLEGRO_EVENT ev;
 
-	player->setX(400);
-	player->setY(350);
+	player->setX(200);
+	player->setY(100);
 
 	al_set_target_bitmap(al_get_backbuffer(display));
 	Draw();
@@ -72,6 +78,8 @@ void Game::GameLoop()
 				player->setVelocityX(-4);
 			else if(ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
 				player->setVelocityX(4);
+			else if(ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
+				player->setVelocityY(50);
 		}
 		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 		{
@@ -89,6 +97,10 @@ void Game::GameLoop()
 void Game::Draw()
 {
 	al_clear_to_color(al_map_rgb(0,0,0));
+
+	for(int i=0; i<7; i++)
+		for(int j=0; j<7; j++)
+			al_draw_bitmap(map->getTile(j,i),j * TILE_SIZE, YOFFSET + i * TILE_SIZE,0);
 
 	al_draw_bitmap(player->getImage(),player->getX(),player->getY(),0);
 

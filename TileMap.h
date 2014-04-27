@@ -10,6 +10,7 @@
 using std::string;
 using std::fstream;
 using std::getline;
+using std::list;
 
 class TileMap
 {
@@ -17,15 +18,20 @@ private:
 
 	ALLEGRO_BITMAP* ground;
 	ALLEGRO_BITMAP* treasure;
+	ALLEGRO_BITMAP* air;
 
-	ALLEGRO_BITMAP *Images[7][7];
+	ALLEGRO_BITMAP *Images[10][7];
+
+	list<Sprite> objects;
 
 public:
 	TileMap(void);
 	~TileMap(void);
 
-	ALLEGRO_BITMAP* getTile(int, int);
+	ALLEGRO_BITMAP* getTile(int x, int y);
 
 	void LoadMap(string);
+
+	void BreakTile(int x, int y);
 
 };

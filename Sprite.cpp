@@ -61,16 +61,6 @@ void Sprite::setVelocityX(int newdX)
 	dx = newdX;
 }
 
-void Sprite::update(long elapsedTime)
-{
-	if (dy != 0)
-	{ 
-		y += dy * elapsedTime; 
-		dy = 0;
-	}
-	x += dx * elapsedTime;
-}
-
 ALLEGRO_BITMAP * Sprite::getImage()
 {
 	return bmp;

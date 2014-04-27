@@ -88,7 +88,6 @@ void Game::GameLoop()
 		}
 		else if(ev.type == ALLEGRO_EVENT_TIMER)
 		{
-			player->update(1);
 			Draw();
 		}
 	}
@@ -98,9 +97,9 @@ void Game::Draw()
 {
 	al_clear_to_color(al_map_rgb(0,0,0));
 
-	for(int i=0; i<7; i++)
-		for(int j=0; j<7; j++)
-			al_draw_bitmap(map->getTile(j,i),j * TILE_SIZE, YOFFSET + i * TILE_SIZE,0);
+	for(int y=0; y<10; y++)
+		for(int x=0; x<7; x++)
+			al_draw_bitmap(map->getTile(x,y),x * TILE_SIZE, y * TILE_SIZE,0);
 
 	al_draw_bitmap(player->getImage(),player->getX(),player->getY(),0);
 

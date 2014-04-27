@@ -34,7 +34,7 @@ TileMap::~TileMap(void)
 
 ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 {
-	return Images[y][x];
+		return Images[y][x];
 }
 
 void TileMap::LoadMap(string mapName)
@@ -64,5 +64,5 @@ void TileMap::LoadMap(string mapName)
 void TileMap::BreakTile(int x, int y)
 {
 	if(Images[y][x] == ground)
-		Images[y][x] == air;
+		Images[y][x] = air;
 }

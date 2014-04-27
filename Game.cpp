@@ -58,8 +58,8 @@ void Game::GameLoop()
 {
 	ALLEGRO_EVENT ev;
 
-	player->setX(200);
-	player->setY(100);
+	player->setX(3);
+	player->setY(2);
 
 	al_set_target_bitmap(al_get_backbuffer(display));
 	Draw();
@@ -75,22 +75,54 @@ void Game::GameLoop()
 			if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 				break;
 			else if(ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-				player->setVelocityX(-4);
+				player->setVelocityX(-1);
 			else if(ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-				player->setVelocityX(4);
+				player->setVelocityX(1);
 			else if(ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-				player->setVelocityY(50);
-		}
-		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
-		{
-			if(ev.keyboard.keycode == ALLEGRO_KEY_LEFT || ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-				player->setVelocityX(0);
+				player->setVelocityY(1);
 		}
 		else if(ev.type == ALLEGRO_EVENT_TIMER)
 		{
+			UpdateObject(player);
 			Draw();
 		}
 	}
+}
+
+void Game::UpdateObject(Sprite* object)
+{
+	int oldX = object->getX();
+	int dX = object->getVelocityX();
+	int newX = oldX + dX;
+
+	if(CheckForTileCollision(newX, object->getY()))
+		object->setX(newX);
+
+	int oldY = object->getY();
+	int dY = object->getVelocityY();
+	int newY = oldY + dY;
+
+	if(CheckForTileCollision(object->getX(), newY))
+		object->setY(newY);
+
+	object->setVelocityX(0);
+	object->setVelocityY(0);
+}
+
+bool Game::CheckForTileCollision(int newX, int newY)
+{
+	if (newX < 0 || newX > 6 || newY > 9)
+		return false;
+	else if(map->getTile(newX,newY) == map->air)
+		return true;
+
+	else if(map->getTile(newX,newY) == map->ground)
+	{
+		map->BreakTile(newX,newY);
+		return true;
+	}
+
+	return false;
 }
 
 void Game::Draw()
@@ -101,7 +133,7 @@ void Game::Draw()
 		for(int x=0; x<7; x++)
 			al_draw_bitmap(map->getTile(x,y),x * TILE_SIZE, y * TILE_SIZE,0);
 
-	al_draw_bitmap(player->getImage(),player->getX(),player->getY(),0);
+	al_draw_bitmap(player->getImage(),player->getX() * TILE_SIZE,player->getY() * TILE_SIZE,0);
 
 	al_flip_display();
 }

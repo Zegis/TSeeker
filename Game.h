@@ -30,5 +30,10 @@ public:
 	Game(void);
 	~Game(void);
 
+	void UpdateObject(Sprite* object);
+
+	bool CheckForTileCollision(int nexX, int newY);
+
+
 	void GameLoop();
 };

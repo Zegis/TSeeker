@@ -4,7 +4,7 @@ int main()
 {
 	Game app;
 
-	app.GameLoop();
+	app.Run();
 
 	return 0;
 }

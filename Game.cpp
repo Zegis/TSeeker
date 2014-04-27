@@ -19,7 +19,8 @@ Game::Game(void)
 		al_set_target_bitmap(playerBMP);
 		al_draw_filled_circle(25,25,25,al_map_rgb(255,255,255));
 
-		font = al_load_ttf_font("pirulen.ttf",52,0);
+		font = al_load_ttf_font("pirulen.ttf",40,0);
+		msgFont = al_load_ttf_font("pirulen.ttf", 18,0);
 
 		player = new Sprite(playerBMP);
 		map = new TileMap();
@@ -27,6 +28,7 @@ Game::Game(void)
 		map->LoadMap("map01.txt", player);
 
 		inGame = true;
+		al_set_target_bitmap(al_get_backbuffer(display));
 	}
 }
 
@@ -63,11 +65,58 @@ void Game::DeinitializeAllegro()
 	al_destroy_timer(timer);
 }
 
+void Game::Run()
+{
+	
+	if(GameMenu())
+		GameLoop();
+	else
+		al_rest(0.5);
+}
+
+bool Game::GameMenu()
+{
+
+	al_clear_to_color(al_map_rgb(0,0,0));
+
+	int lineY = 140;
+	
+	al_draw_text(font,al_map_rgb(255,255,255),20, lineY,0,"Treasure");
+
+	int lineOffset = al_get_font_line_height(font);
+	lineY += lineOffset; 
+
+	al_draw_text(font,al_map_rgb(255,255,255),65, lineY,0,"Seeker");
+
+	lineY = 440;
+
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 15, lineY, 0, "Press ENTER to start");
+	lineOffset = al_get_font_line_height(msgFont);
+	lineY += lineOffset;
+
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 65, lineY, 0, "ESCAPE to quit");
+
+	al_flip_display();
+
+	ALLEGRO_EVENT ev;
+
+	while(true)
+	{
+		al_wait_for_event(evQueue, &ev);
+
+		if(ev.type==ALLEGRO_EVENT_KEY_DOWN) 
+			if (ev.keyboard.keycode == ALLEGRO_KEY_ENTER)
+				return true;
+			else if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+				return false;
+	}
+}
+
 void Game::GameLoop()
 {
 	ALLEGRO_EVENT ev;
 
-	al_set_target_bitmap(al_get_backbuffer(display));
+	
 	Draw();
 
 	al_start_timer(timer);
@@ -95,7 +144,7 @@ void Game::GameLoop()
 	}
 
 	DrawEnd();
-	al_rest(2);
+	al_rest(0.5);
 }
 
 void Game::UpdateObject(Sprite* object)
@@ -179,7 +228,7 @@ void Game::Draw()
 
 void Game::DrawEnd()
 {
-	al_draw_text(font,al_map_rgb(255,255,255), 10, 180, 0, "Victory!");
+	if(!inGame) al_draw_text(font,al_map_rgb(255,255,255), 60, 180, 0, "Victory!");
 
 	al_flip_display();
 }

@@ -24,6 +24,7 @@ private:
 	ALLEGRO_BITMAP * playerBMP;
 
 	ALLEGRO_FONT* font;
+	ALLEGRO_FONT* msgFont;
 
 	int TILE_SIZE;
 	int YOFFSET;
@@ -33,10 +34,6 @@ private:
 
 	bool inGame;
 
-public:
-	Game(void);
-	~Game(void);
-
 	void UpdateObject(Sprite* object);
 
 	bool CheckForTileCollision(int nexX, int newY);
@@ -45,4 +42,12 @@ public:
 	Sprite* Game::GetSpriteCollision(Sprite* object);
 
 	void GameLoop();
+
+	bool GameMenu();
+
+public:
+	Game(void);
+	~Game(void);
+
+	void Run();
 };

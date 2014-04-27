@@ -33,7 +33,7 @@ public:
 
 	ALLEGRO_BITMAP* playerBMP;
 
-	void LoadMap(string, Sprite*);
+	void LoadMap(string, Sprite*, Sprite*);
 
 	list<Sprite*>::iterator getFirstObject();
 	list<Sprite*>::iterator getLastObject();

@@ -14,8 +14,10 @@ private:
 	int dx;
 	int dy;
 
+	bool follower;
+
 public:
-	Sprite(ALLEGRO_BITMAP *);
+	Sprite(ALLEGRO_BITMAP *, bool);
 	Sprite(ALLEGRO_BITMAP * nBmp, int nX, int nY);
 	Sprite();
 	~Sprite(void);
@@ -38,5 +40,7 @@ public:
 	void setVelocityY(int);
 
 	void update(long elapsedTime);
+
+	bool isFollower();
 };
 

@@ -1,13 +1,14 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(ALLEGRO_BITMAP* nBmp)
+Sprite::Sprite(ALLEGRO_BITMAP* nBmp, bool nfollower)
 {
 	bmp = nBmp;
 	dx = 0;
 	dy = 0;
 	x = 0;
 	y = 0;
+	follower = nfollower;
 }
 
 Sprite::Sprite(ALLEGRO_BITMAP* nBmp, int nX, int nY)
@@ -73,6 +74,11 @@ void Sprite::setVelocityY(int newdY)
 void Sprite::setVelocityX(int newdX)
 {
 	dx = newdX;
+}
+
+bool Sprite::isFollower()
+{
+	return follower;
 }
 
 ALLEGRO_BITMAP * Sprite::getImage()

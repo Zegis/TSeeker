@@ -19,9 +19,11 @@ private:
 	void DeinitializeAllegro();
 
 	Sprite* player;
+	Sprite* follower;
 	TileMap* map;
 
 	ALLEGRO_BITMAP * playerBMP;
+	ALLEGRO_BITMAP* followerBMP;
 
 	ALLEGRO_FONT* font;
 	ALLEGRO_FONT* msgFont;
@@ -36,7 +38,7 @@ private:
 
 	void UpdateObject(Sprite* object);
 
-	bool CheckForTileCollision(int nexX, int newY);
+	bool CheckForTileCollision(int nexX, int newY, bool isFollower);
 
 	void CheckObjectCollisions(Sprite* object);
 	Sprite* Game::GetSpriteCollision(Sprite* object);

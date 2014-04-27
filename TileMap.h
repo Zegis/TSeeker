@@ -27,6 +27,7 @@ public:
 	ALLEGRO_BITMAP* getTile(int x, int y);
 
 	ALLEGRO_BITMAP* ground;
+	ALLEGRO_BITMAP* grass;
 	ALLEGRO_BITMAP* treasure;
 	ALLEGRO_BITMAP* air;
 	ALLEGRO_BITMAP* rock;

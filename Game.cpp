@@ -15,13 +15,9 @@ Game::Game(void): MAXLVL(2)
 		al_register_event_source(evQueue, al_get_keyboard_event_source());
 		al_register_event_source(evQueue, al_get_timer_event_source(timer));
 
-		playerBMP = al_create_bitmap(50,50);
-		al_set_target_bitmap(playerBMP);
-		al_draw_filled_circle(25,25,25,al_map_rgb(255,255,255));
+		playerBMP = al_load_bitmap("player.png");
 
-		followerBMP = al_create_bitmap(50,50);
-		al_set_target_bitmap(followerBMP);
-		al_draw_filled_ellipse(25,25,25,15,al_map_rgb(187,52 ,224));
+		followerBMP = al_load_bitmap("follower.png");
 
 		font = al_load_ttf_font("pirulen.ttf",40,0);
 		msgFont = al_load_ttf_font("pirulen.ttf", 18,0);
@@ -42,6 +38,7 @@ bool Game::InitializeAllegro()
 	{
 		al_init_font_addon();		
 		al_init_ttf_addon();
+		al_init_image_addon();
 		
 		return true;
 	}
@@ -245,7 +242,7 @@ bool Game::CheckForTileCollision(int newX, int newY, bool isFollower)
 	else if(map->getTile(newX,newY) == map->air)
 		return true;
 
-	else if(map->getTile(newX,newY) == map->ground && !isFollower)
+	else if( (map->getTile(newX,newY) == map->ground || map->getTile(newX,newY) == map->grass ) && !isFollower)
 	{
 		map->BreakTile(newX,newY);
 		return true;

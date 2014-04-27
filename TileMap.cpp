@@ -7,17 +7,14 @@ TileMap::TileMap(void)
 	al_set_target_bitmap(ground);
 	al_clear_to_color(al_map_rgb(173,102,9));
 
-	treasure = al_create_bitmap(50,50);
-	al_set_target_bitmap(treasure);
-	al_clear_to_color(al_map_rgb(231,242,7));
+	treasure = al_load_bitmap("treasure.png");
 
 	air = al_create_bitmap(50,50);
 	al_set_target_bitmap(air);
 	al_clear_to_color(al_map_rgb(82,223,255));
 
-	rock = al_create_bitmap(50,50);
-	al_set_target_bitmap(rock);
-	al_clear_to_color(al_map_rgb(165,172,173));
+	rock = al_load_bitmap("rock.png");
+	grass = al_load_bitmap("grass.png");
 }
 
 
@@ -68,6 +65,7 @@ void TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 			}
 			else if (mapLine[i] == '0') Images[y][i] = ground;
 			else if (mapLine[i] == 'R') Images[y][i] = rock;
+			else if (mapLine[i] == 'G') Images[y][i] = grass;
 			else if (mapLine[i] == '1'){
 				Images[y][i] = air;
 				objects.push_back(new Sprite(treasure,i,y));
@@ -80,7 +78,7 @@ void TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 
 void TileMap::BreakTile(int x, int y)
 {
-	if(Images[y][x] == ground)
+	if(Images[y][x] == ground || Images[y][x] == grass)
 		Images[y][x] = air;
 }
 

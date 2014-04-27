@@ -20,10 +20,14 @@ Game::Game(void)
 
 		al_draw_filled_circle(25,25,25,al_map_rgb(255,255,255));
 
+		font = al_load_ttf_font("pirulen.ttf",52,0);
+
 		player = new Sprite(playerBMP);
 		map = new TileMap();
 
 		map->LoadMap("map01.txt");
+
+		inGame = true;
 	}
 }
 
@@ -31,7 +35,12 @@ Game::Game(void)
 bool Game::InitializeAllegro()
 {
 	if(al_init() && al_install_keyboard() && al_init_primitives_addon())
+	{
+		al_init_font_addon();		
+		al_init_ttf_addon();
+		
 		return true;
+	}
 	else
 		return false;
 }
@@ -66,7 +75,7 @@ void Game::GameLoop()
 
 	al_start_timer(timer);
 
-	while(true)
+	while(inGame)
 	{
 		al_wait_for_event(evQueue, &ev);
 
@@ -87,6 +96,8 @@ void Game::GameLoop()
 			Draw();
 		}
 	}
+
+	DrawEnd();
 }
 
 void Game::UpdateObject(Sprite* object)
@@ -107,6 +118,8 @@ void Game::UpdateObject(Sprite* object)
 
 	object->setVelocityX(0);
 	object->setVelocityY(0);
+
+	CheckObjectCollisions(object);
 }
 
 bool Game::CheckForTileCollision(int newX, int newY)
@@ -123,6 +136,28 @@ bool Game::CheckForTileCollision(int newX, int newY)
 	}
 
 	return false;
+}
+
+void Game::CheckObjectCollisions(Sprite* object)
+{
+	Sprite* collisionSprite = GetSpriteCollision(object);
+
+	if( collisionSprite != NULL)
+		inGame = false;
+}
+
+Sprite* Game::GetSpriteCollision(Sprite* object)
+{
+	list<Sprite*>::iterator it = map->getFirstObject();
+	list<Sprite*>::iterator end = map->getLastObject();
+
+	for(;it != end; ++it)
+	{
+		if( (*it)->getX() == object->getX() && (*it)->getY() == object->getY())
+			return (*it);
+	}
+
+	return NULL;
 }
 
 void Game::Draw()
@@ -142,4 +177,13 @@ void Game::Draw()
 	al_draw_bitmap(player->getImage(),player->getX() * TILE_SIZE,player->getY() * TILE_SIZE,0);
 
 	al_flip_display();
+}
+
+void Game::DrawEnd()
+{
+	al_draw_text(font,al_map_rgb(255,255,255), 10, 180, 0, "Victory!");
+
+	al_flip_display();
+
+	std::cin.get();
 }

@@ -29,6 +29,7 @@ public:
 	ALLEGRO_BITMAP* ground;
 	ALLEGRO_BITMAP* treasure;
 	ALLEGRO_BITMAP* air;
+	ALLEGRO_BITMAP* rock;
 
 	void LoadMap(string);
 

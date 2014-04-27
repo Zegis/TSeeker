@@ -2,6 +2,8 @@
 
 #include <allegro5\allegro5.h>
 #include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 #include "Sprite.h"
 #include "TileMap.h"
 
@@ -21,10 +23,15 @@ private:
 
 	ALLEGRO_BITMAP * playerBMP;
 
+	ALLEGRO_FONT* font;
+
 	int TILE_SIZE;
 	int YOFFSET;
 
 	void Draw();
+	void DrawEnd();
+
+	bool inGame;
 
 public:
 	Game(void);
@@ -34,6 +41,8 @@ public:
 
 	bool CheckForTileCollision(int nexX, int newY);
 
+	void CheckObjectCollisions(Sprite* object);
+	Sprite* Game::GetSpriteCollision(Sprite* object);
 
 	void GameLoop();
 };

@@ -14,13 +14,15 @@ TileMap::TileMap(void)
 	air = al_create_bitmap(50,50);
 	al_set_target_bitmap(air);
 	al_clear_to_color(al_map_rgb(82,223,255));
+
+	rock = al_create_bitmap(50,50);
+	al_set_target_bitmap(rock);
+	al_clear_to_color(al_map_rgb(165,172,173));
 }
 
 
 TileMap::~TileMap(void)
 {
-	std::cout << "Bla, bla";
-
 	for(int i=0; i<7; ++i)
 		for(int j=0; j<7; ++j)
 			Images[i][j] = NULL;
@@ -51,6 +53,7 @@ void TileMap::LoadMap(string mapName)
 		{
 			if(mapLine[i] == '.') Images[y][i] = air;
 			if (mapLine[i] == '0') Images[y][i] = ground;
+			if (mapLine[i] == 'R') Images[y][i] = rock;
 			else if (mapLine[i] == '1'){
 				Images[y][i] = ground;
 				objects.push_back(new Sprite(treasure,i,y));

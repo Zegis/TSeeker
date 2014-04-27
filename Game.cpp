@@ -17,7 +17,6 @@ Game::Game(void)
 
 		playerBMP = al_create_bitmap(50,50);
 		al_set_target_bitmap(playerBMP);
-
 		al_draw_filled_circle(25,25,25,al_map_rgb(255,255,255));
 
 		font = al_load_ttf_font("pirulen.ttf",52,0);
@@ -25,7 +24,7 @@ Game::Game(void)
 		player = new Sprite(playerBMP);
 		map = new TileMap();
 
-		map->LoadMap("map01.txt");
+		map->LoadMap("map01.txt", player);
 
 		inGame = true;
 	}
@@ -58,6 +57,7 @@ Game::~Game(void)
 
 void Game::DeinitializeAllegro()
 {
+	al_destroy_font(font);
 	al_destroy_display(display);
 	al_destroy_event_queue(evQueue);
 	al_destroy_timer(timer);
@@ -66,9 +66,6 @@ void Game::DeinitializeAllegro()
 void Game::GameLoop()
 {
 	ALLEGRO_EVENT ev;
-
-	player->setX(3);
-	player->setY(2);
 
 	al_set_target_bitmap(al_get_backbuffer(display));
 	Draw();
@@ -98,6 +95,7 @@ void Game::GameLoop()
 	}
 
 	DrawEnd();
+	al_rest(2);
 }
 
 void Game::UpdateObject(Sprite* object)
@@ -184,6 +182,4 @@ void Game::DrawEnd()
 	al_draw_text(font,al_map_rgb(255,255,255), 10, 180, 0, "Victory!");
 
 	al_flip_display();
-
-	std::cin.get();
 }

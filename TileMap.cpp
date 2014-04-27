@@ -32,6 +32,7 @@ TileMap::~TileMap(void)
 	al_destroy_bitmap(ground);
 	al_destroy_bitmap(treasure);
 	al_destroy_bitmap(air);
+	al_destroy_bitmap(rock);
 }
 
 ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
@@ -39,7 +40,7 @@ ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 		return Images[y][x];
 }
 
-void TileMap::LoadMap(string mapName)
+void TileMap::LoadMap(string mapName, Sprite* player)
 {
 	fstream mapFile(mapName, fstream::in);
 	
@@ -57,6 +58,11 @@ void TileMap::LoadMap(string mapName)
 			else if (mapLine[i] == '1'){
 				Images[y][i] = ground;
 				objects.push_back(new Sprite(treasure,i,y));
+			}
+			else if (mapLine[i] == '@'){
+				Images[y][i] = air;
+				player->setX(i);
+				player->setY(y);
 			}
 		}
 		++y;

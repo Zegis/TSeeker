@@ -31,7 +31,9 @@ public:
 	ALLEGRO_BITMAP* air;
 	ALLEGRO_BITMAP* rock;
 
-	void LoadMap(string);
+	ALLEGRO_BITMAP* playerBMP;
+
+	void LoadMap(string, Sprite*);
 
 	list<Sprite*>::iterator getFirstObject();
 	list<Sprite*>::iterator getLastObject();

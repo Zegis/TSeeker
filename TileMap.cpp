@@ -43,6 +43,8 @@ ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 void TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 {
 	fstream mapFile(mapName, fstream::in);
+
+	objects.clear();
 	
 	int y = 0;
 	string mapLine;
@@ -67,7 +69,7 @@ void TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 			else if (mapLine[i] == '0') Images[y][i] = ground;
 			else if (mapLine[i] == 'R') Images[y][i] = rock;
 			else if (mapLine[i] == '1'){
-				Images[y][i] = ground;
+				Images[y][i] = air;
 				objects.push_back(new Sprite(treasure,i,y));
 			}
 		}

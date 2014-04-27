@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(void)
+Game::Game(void): MAXLVL(2)
 {
 	if(InitializeAllegro())
 	{
@@ -29,8 +29,6 @@ Game::Game(void)
 		player = new Sprite(playerBMP, false);
 		follower = new Sprite(followerBMP, true);
 		map = new TileMap();
-
-		map->LoadMap("map01.txt", player, follower);
 
 		inGame = true;
 		al_set_target_bitmap(al_get_backbuffer(display));
@@ -74,7 +72,10 @@ void Game::Run()
 {
 	
 	if(GameMenu())
+	{
+		currentLvl = 1;
 		GameLoop();
+	}
 	else
 		al_rest(0.5);
 }
@@ -121,42 +122,80 @@ void Game::GameLoop()
 {
 	ALLEGRO_EVENT ev;
 
-	
-	Draw();
-
-	al_start_timer(timer);
-
 	while(inGame)
 	{
-		al_wait_for_event(evQueue, &ev);
+		std::cout << "Poziom: " << currentLvl << std::endl; 
 
-		if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		map->LoadMap(assembleMapName(), player, follower);
+		al_start_timer(timer);
+
+		inLevel = true;
+
+		Draw();
+
+		while(inLevel)
 		{
-			if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-				break;
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
-				player->setVelocityX(-1);
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-				player->setVelocityX(1);
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
-				player->setVelocityY(1);
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_4)
-				follower->setVelocityX(-1);
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_5)
-				follower->setVelocityX(0);
-			else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_6)
-				follower->setVelocityX(1);
+			al_wait_for_event(evQueue, &ev);
+
+			if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+			{
+				if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+				{
+					inGame = false;
+					break;
+				}
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_LEFT)
+					player->setVelocityX(-1);
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+					player->setVelocityX(1);
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_DOWN)
+					player->setVelocityY(1);
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_4)
+					follower->setVelocityX(-1);
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_5)
+					follower->stop();
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_PAD_6)
+					follower->setVelocityX(1);
+				else if(ev.keyboard.keycode == ALLEGRO_KEY_R)
+				{
+					std::cout << "Restart!\n";
+					inLevel = false;
+					break;
+				}
+
+			}
+			else if(ev.type == ALLEGRO_EVENT_TIMER)
+			{
+				UpdateObject(player);
+				UpdateObject(follower);
+				Draw();
+			}
 		}
-		else if(ev.type == ALLEGRO_EVENT_TIMER)
-		{
-			UpdateObject(player);
-			UpdateObject(follower);
-			Draw();
-		}
+
+		follower->stop();
+		player->stop();
+		al_rest(0.5);
 	}
 
 	DrawEnd();
 	al_rest(1);
+}
+
+string Game::assembleMapName()
+{
+	stringstream str;
+
+	str << "map";
+	
+	if(currentLvl < 10)
+		str << "0" << currentLvl;
+	else
+		str << currentLvl;
+	
+	str << ".txt";
+
+	return str.str();
+
 }
 
 void Game::UpdateObject(Sprite* object)
@@ -187,6 +226,7 @@ void Game::UpdateObject(Sprite* object)
 	if(!object->isFollower())
 	{
 		object->setVelocityX(0);
+	
 		object->setVelocityY(0);
 	}	
 
@@ -195,6 +235,11 @@ void Game::UpdateObject(Sprite* object)
 
 bool Game::CheckForTileCollision(int newX, int newY, bool isFollower)
 {
+	if(isFollower && newX == player->getX() && newY == player->getY())
+		return false;
+	else if( newX == follower->getX() && newY == follower->getY())
+		return false;
+
 	if (newX < 0 || newX > 6 || newY > 9)
 		return false;
 	else if(map->getTile(newX,newY) == map->air)
@@ -214,7 +259,14 @@ void Game::CheckObjectCollisions(Sprite* object)
 	Sprite* collisionSprite = GetSpriteCollision(object);
 
 	if( collisionSprite != NULL && object->isFollower())
-		inGame = false;
+	{
+		if(currentLvl < MAXLVL)
+			++currentLvl;
+		else
+			inGame = false;
+
+		inLevel = false;
+	}
 }
 
 Sprite* Game::GetSpriteCollision(Sprite* object)
@@ -254,7 +306,7 @@ void Game::Draw()
 
 void Game::DrawEnd()
 {
-	if(!inGame)
+	if(!inGame && !inLevel)
 	{
 		al_clear_to_color(al_map_rgb(0,0,0));
 

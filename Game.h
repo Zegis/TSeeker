@@ -6,6 +6,9 @@
 #include <allegro5\allegro_ttf.h>
 #include "Sprite.h"
 #include "TileMap.h"
+#include <sstream>
+
+using std::stringstream;
 
 class Game
 {
@@ -31,10 +34,15 @@ private:
 	int TILE_SIZE;
 	int YOFFSET;
 
+	int const MAXLVL;
+
+	int currentLvl;
+
 	void Draw();
 	void DrawEnd();
 
 	bool inGame;
+	bool inLevel;
 
 	void UpdateObject(Sprite* object);
 
@@ -46,6 +54,8 @@ private:
 	void GameLoop();
 
 	bool GameMenu();
+
+	string assembleMapName();
 
 public:
 	Game(void);

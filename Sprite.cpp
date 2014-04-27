@@ -86,6 +86,12 @@ ALLEGRO_BITMAP * Sprite::getImage()
 	return bmp;
 }
 
+void Sprite::stop()
+{
+	dx = 0;
+	dy = 0;
+}
+
 Sprite::~Sprite(void)
 {
 }

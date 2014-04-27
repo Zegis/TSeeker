@@ -42,5 +42,7 @@ public:
 	void update(long elapsedTime);
 
 	bool isFollower();
+
+	void stop();
 };
 

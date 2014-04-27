@@ -6,10 +6,24 @@ Sprite::Sprite(ALLEGRO_BITMAP* nBmp)
 	bmp = nBmp;
 	dx = 0;
 	dy = 0;
+	x = 0;
+	y = 0;
+}
+
+Sprite::Sprite(ALLEGRO_BITMAP* nBmp, int nX, int nY)
+{
+	bmp = nBmp;
+	dx = 0;
+	dy = 0;
+	x = nX;
+	y = nY;	
 }
 
 Sprite::Sprite()
 {
+	dx = 0;
+	dy = 0;
+	x = y = 0;
 }
 
 int Sprite::getHeight()

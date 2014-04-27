@@ -53,7 +53,7 @@ void TileMap::LoadMap(string mapName)
 			if (mapLine[i] == '0') Images[y][i] = ground;
 			else if (mapLine[i] == '1'){
 				Images[y][i] = ground;
-
+				objects.push_back(new Sprite(treasure,i,y));
 			}
 		}
 		++y;
@@ -65,4 +65,14 @@ void TileMap::BreakTile(int x, int y)
 {
 	if(Images[y][x] == ground)
 		Images[y][x] = air;
+}
+
+list<Sprite*>::iterator TileMap::getFirstObject()
+{
+	return objects.begin();
+}
+
+list<Sprite*>::iterator TileMap::getLastObject()
+{
+	return objects.end();
 }

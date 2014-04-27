@@ -16,6 +16,7 @@ private:
 
 public:
 	Sprite(ALLEGRO_BITMAP *);
+	Sprite(ALLEGRO_BITMAP * nBmp, int nX, int nY);
 	Sprite();
 	~Sprite(void);
 

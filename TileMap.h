@@ -18,7 +18,7 @@ private:
 
 	ALLEGRO_BITMAP *Images[10][7];
 
-	list<Sprite> objects;
+	list<Sprite*> objects;
 
 public:
 	TileMap(void);
@@ -31,6 +31,9 @@ public:
 	ALLEGRO_BITMAP* air;
 
 	void LoadMap(string);
+
+	list<Sprite*>::iterator getFirstObject();
+	list<Sprite*>::iterator getLastObject();
 
 	void BreakTile(int x, int y);
 

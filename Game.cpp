@@ -133,6 +133,12 @@ void Game::Draw()
 		for(int x=0; x<7; x++)
 			al_draw_bitmap(map->getTile(x,y),x * TILE_SIZE, y * TILE_SIZE,0);
 
+	list<Sprite*>::iterator it = map->getFirstObject();
+	list<Sprite*>::iterator end = map->getLastObject();
+
+	for(;it != end; ++it)
+		al_draw_bitmap((*it)->getImage(),(*it)->getX() * TILE_SIZE, (*it)->getY() * TILE_SIZE,0);
+
 	al_draw_bitmap(player->getImage(),player->getX() * TILE_SIZE,player->getY() * TILE_SIZE,0);
 
 	al_flip_display();

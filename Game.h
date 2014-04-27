@@ -50,9 +50,11 @@ private:
 	bool CheckForTileCollision(int nexX, int newY, bool isFollower);
 
 	void CheckObjectCollisions(Sprite* object);
-	Sprite* Game::GetSpriteCollision(Sprite* object);
+	Sprite* GetSpriteCollision(Sprite* object);
 
 	void GameLoop();
+
+	void GameTutorial();
 
 	bool GameMenu();
 

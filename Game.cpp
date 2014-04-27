@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(void): MAXLVL(2)
+Game::Game(void): MAXLVL(3)
 {
 	if(InitializeAllegro())
 	{
@@ -20,7 +20,7 @@ Game::Game(void): MAXLVL(2)
 		followerBMP = al_load_bitmap("follower.png");
 
 		font = al_load_ttf_font("pirulen.ttf",40,0);
-		msgFont = al_load_ttf_font("pirulen.ttf", 18,0);
+		msgFont = al_load_ttf_font("pirulen.ttf", 16,0);
 
 		player = new Sprite(playerBMP, false);
 		follower = new Sprite(followerBMP, true);
@@ -70,6 +70,7 @@ void Game::Run()
 	
 	if(GameMenu())
 	{
+		GameTutorial();
 		currentLvl = 1;
 		GameLoop();
 	}
@@ -93,11 +94,11 @@ bool Game::GameMenu()
 
 	lineY = 440;
 
-	al_draw_text(msgFont, al_map_rgb(255,255,255), 15, lineY, 0, "Press ENTER to start");
+	al_draw_text(msgFont, al_map_rgb(255,255,255),  175, lineY, ALLEGRO_ALIGN_CENTRE, "Press ENTER to start");
 	lineOffset = al_get_font_line_height(msgFont);
 	lineY += lineOffset;
 
-	al_draw_text(msgFont, al_map_rgb(255,255,255), 65, lineY, 0, "ESCAPE to quit");
+	al_draw_text(msgFont, al_map_rgb(255,255,255),  175, lineY, ALLEGRO_ALIGN_CENTRE, "ESCAPE to quit");
 
 	al_flip_display();
 
@@ -112,6 +113,63 @@ bool Game::GameMenu()
 				return true;
 			else if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 				return false;
+	}
+}
+
+void Game::GameTutorial()
+{
+	al_clear_to_color(al_map_rgb(0,0,0));
+
+	int lineStartY = 50;
+	int lineOffsetY = al_get_font_line_height(msgFont);
+
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "You're unlucky");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "little spirit!");
+	lineStartY += lineOffsetY *2;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Evil, hulking ogre");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "captured you to help in...");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Treasure hunting!");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Bring him to chalice!");
+	lineStartY += lineOffsetY * 3;
+
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Use arrow keys to:"); 
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "move spirit and");
+
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "dig into earth");
+
+	lineStartY += lineOffsetY * 2;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Use numpad arrows");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "to order ogre left, right");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "and numpad 5");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "to stop ogre!");
+	lineStartY += lineOffsetY*2;
+
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Press R");
+	lineStartY += lineOffsetY;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "to restart current level");
+
+	lineStartY += lineOffsetY * 3;
+	al_draw_text(msgFont, al_map_rgb(255,255,255), 175, lineStartY, ALLEGRO_ALIGN_CENTRE, "Press ENTER to continue");
+
+	al_flip_display();
+
+	ALLEGRO_EVENT ev;
+
+	while(true)
+	{
+		al_wait_for_event(evQueue, &ev);
+
+		if(ev.type == ALLEGRO_EVENT_KEY_DOWN && ev.keyboard.keycode == ALLEGRO_KEY_ENTER)
+			break;
 	}
 }
 
@@ -309,7 +367,7 @@ void Game::DrawEnd()
 
 		al_draw_text(font,al_map_rgb(255,255,255), 45, 180, 0, "Victory!");
 
-		al_draw_text(msgFont,al_map_rgb(255,255,255), 30, 280, 0, "Thanks for playing!");
+		al_draw_text(msgFont,al_map_rgb(255,255,255), 175, 280, ALLEGRO_ALIGN_CENTRE, "Thanks for playing!");
 	}
 	
 	al_flip_display();

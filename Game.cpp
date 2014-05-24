@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(void): MAXLVL(3)
+Game::Game(void): MAXLVL(4)
 {
 	if(InitializeAllegro())
 	{
@@ -181,10 +181,23 @@ void Game::GameLoop()
 	{
 		std::cout << "Poziom: " << currentLvl << std::endl; 
 
-		map->LoadMap(assembleMapName(), player, follower);
-		al_start_timer(timer);
-
 		inLevel = true;
+
+		while( !(map->LoadMap(assembleMapName(), player, follower)))
+		{
+			if(currentLvl < MAXLVL)
+			{
+			++currentLvl;
+			std::cout << "Próbuje poziom: " << currentLvl;
+			}
+			else
+			{
+				inLevel = inGame = false;
+				break;
+			}
+		}
+
+		al_start_timer(timer);
 
 		Draw();
 

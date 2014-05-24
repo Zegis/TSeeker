@@ -37,43 +37,52 @@ ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 		return Images[y][x];
 }
 
-void TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
+bool TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 {
 	fstream mapFile(mapName, fstream::in);
 
-	objects.clear();
+	if(mapFile)
+	{
+		objects.clear();
 	
-	int y = 0;
-	string mapLine;
+		int y = 0;
+		string mapLine;
 
-	while(getline(mapFile, mapLine))
-	{		
-		int length = mapLine.length();
-		for(int i=0; i < length; ++i)
-		{
-			if(mapLine[i] == '.') Images[y][i] = air;
-			else if (mapLine[i] == '@'){
-				Images[y][i] = air;
-				player->setX(i);
-				player->setY(y);
-			}
-			else if (mapLine[i] == 'F')
+		while(getline(mapFile, mapLine))
+		{		
+			int length = mapLine.length();
+			for(int i=0; i < length; ++i)
 			{
-				Images[y][i] = air;
-				follower->setX(i);
-				follower->setY(y);
+				if(mapLine[i] == '.') Images[y][i] = air;
+				else if (mapLine[i] == '@'){
+					Images[y][i] = air;
+					player->setX(i);
+					player->setY(y);
+				}
+				else if (mapLine[i] == 'F')
+				{
+					Images[y][i] = air;
+					follower->setX(i);
+					follower->setY(y);
+				}
+				else if (mapLine[i] == '0') Images[y][i] = ground;
+				else if (mapLine[i] == 'R') Images[y][i] = rock;
+				else if (mapLine[i] == 'G') Images[y][i] = grass;
+				else if (mapLine[i] == '1'){
+					Images[y][i] = air;
+					objects.push_back(new Sprite(treasure,i,y));
+				}
 			}
-			else if (mapLine[i] == '0') Images[y][i] = ground;
-			else if (mapLine[i] == 'R') Images[y][i] = rock;
-			else if (mapLine[i] == 'G') Images[y][i] = grass;
-			else if (mapLine[i] == '1'){
-				Images[y][i] = air;
-				objects.push_back(new Sprite(treasure,i,y));
-			}
+			++y;
 		}
-		++y;
+		mapFile.close();
+		return true;
 	}
-	mapFile.close();
+	else
+	{
+		std::cout << "Brak mapy: " << mapName << std::endl;
+		return false;
+	}
 }
 
 void TileMap::BreakTile(int x, int y)

@@ -54,8 +54,7 @@
       <AdditionalIncludeDirectories>D:\VisualStudio2010\allegro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\VisualStudio2010\allegro\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>allegro-5.0.6-monolith-md-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>

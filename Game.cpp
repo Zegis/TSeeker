@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "iniParse.h"
 
 
 Game::Game(void): MAXLVL(4)
@@ -28,6 +29,8 @@ Game::Game(void): MAXLVL(4)
 
 		inGame = true;
 		al_set_target_bitmap(al_get_backbuffer(display));
+
+		iniParse ini("Tseeker.ini");
 	}
 }
 

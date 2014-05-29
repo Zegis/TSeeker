@@ -2,7 +2,7 @@
 #include "iniParse.h"
 
 
-Game::Game(void): MAXLVL(4)
+Game::Game(void)
 {
 	if(InitializeAllegro())
 	{
@@ -31,6 +31,10 @@ Game::Game(void): MAXLVL(4)
 		al_set_target_bitmap(al_get_backbuffer(display));
 
 		iniParse ini("Tseeker.ini");
+
+		MAXLVL = ini.getValue("General", "MaxLVL", 4);
+
+		std::cout << "Wczytano wartosc MaxLVL: " << MAXLVL;
 	}
 }
 

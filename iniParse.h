@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 using std::string;
+using std::map;
+using std::pair;
 
 class iniParse
 {
@@ -22,8 +25,12 @@ class iniParse
 
 		void StoreValue(string lineWithValue, size_t delimiterPos);
 
+		map<string, string> configuration;
+
 	public:
 		iniParse(string fileName);
 
 		void reloadFile();
+
+		int getValue(string section, string property, int defaultValue);
 };

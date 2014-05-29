@@ -25,8 +25,6 @@ void iniParse::read()
 		trimm(&configLine);
 		cout << "Czytam linijke: " << configLine << ".\n";
 
-		size_t found;
-
 		if(configLine[0] == ';')
 			continue;
 		else if(configLine[0] == '[')
@@ -36,10 +34,9 @@ void iniParse::read()
 		}
 		else
 		{
-			found = configLine.find('=');
+			size_t found = configLine.find('=');
 			if(found != configLine.npos)
 			{
-				cout << "Delimiter na pozycji: " << found;
 				StoreValue(configLine, found);
 			}
 		}
@@ -63,12 +60,35 @@ void iniParse::trimm(string *s)
 void iniParse::StoreValue(string lineWithValue, size_t delimiterPos)
 {
 	string key = makeKey(lineWithValue.substr(0,delimiterPos));
-	cout << "Zapisze wartosc: " << lineWithValue.substr(delimiterPos+1) << " pod kluczem: " << key << ".\n";
+	string value = lineWithValue.substr(delimiterPos+1);
+	cout << "Zapisze wartosc: " << value << " pod kluczem: " << key << ".\n";
+
+	configuration.insert(pair<string,string>(key,value));	
 }
 
 string iniParse::makeKey(string propName)
 {
 	string ret = sectionName + "." + propName;
+
+	return ret;
+}
+
+int iniParse::getValue(string section, string property, int defaultValue)
+{
+	string key = makeKey(section, property);
+
+	int ret;
+
+	try
+	{
+		//string tmp = configuration.at(key);
+		ret = std::stoi(configuration.at(key));
+		//ret = std::stoi(tmp);
+	}
+	catch(const std::out_of_range)
+	{
+		ret = defaultValue;
+	}
 
 	return ret;
 }

@@ -35,7 +35,7 @@ private:
 	int TILE_SIZE;
 	int YOFFSET;
 
-	int const MAXLVL;
+	int MAXLVL;
 
 	int currentLvl;
 

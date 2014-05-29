@@ -81,9 +81,7 @@ int iniParse::getValue(string section, string property, int defaultValue)
 
 	try
 	{
-		//string tmp = configuration.at(key);
 		ret = std::stoi(configuration.at(key));
-		//ret = std::stoi(tmp);
 	}
 	catch(const std::out_of_range)
 	{

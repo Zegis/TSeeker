@@ -16,12 +16,12 @@ Game::Game(void)
 		al_register_event_source(evQueue, al_get_keyboard_event_source());
 		al_register_event_source(evQueue, al_get_timer_event_source(timer));
 
-		playerBMP = al_load_bitmap("player.png");
+		playerBMP = al_load_bitmap("res/player.png");
 
-		followerBMP = al_load_bitmap("follower.png");
+		followerBMP = al_load_bitmap("res/follower.png");
 
-		font = al_load_ttf_font("pirulen.ttf",40,0);
-		msgFont = al_load_ttf_font("pirulen.ttf", 16,0);
+		font = al_load_ttf_font("res/pirulen.ttf",40,0);
+		msgFont = al_load_ttf_font("res/pirulen.ttf", 16,0);
 
 		player = new Sprite(playerBMP, false);
 		follower = new Sprite(followerBMP, true);
@@ -260,7 +260,7 @@ string Game::assembleMapName()
 {
 	stringstream str;
 
-	str << "map";
+	str << "maps/map";
 	
 	if(currentLvl < 10)
 		str << "0" << currentLvl;

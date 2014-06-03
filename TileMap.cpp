@@ -7,14 +7,14 @@ TileMap::TileMap(void)
 	al_set_target_bitmap(ground);
 	al_clear_to_color(al_map_rgb(173,102,9));
 
-	treasure = al_load_bitmap("treasure.png");
+	treasure = al_load_bitmap("res/treasure.png");
 
 	air = al_create_bitmap(50,50);
 	al_set_target_bitmap(air);
 	al_clear_to_color(al_map_rgb(82,223,255));
 
-	rock = al_load_bitmap("rock.png");
-	grass = al_load_bitmap("grass.png");
+	rock = al_load_bitmap("res/rock.png");
+	grass = al_load_bitmap("res/grass.png");
 }
 
 

@@ -3,18 +3,38 @@
 
 TileMap::TileMap(void)
 {
-	ground = al_create_bitmap(50,50);
+	/*ground = al_create_bitmap(50,50);
 	al_set_target_bitmap(ground);
-	al_clear_to_color(al_map_rgb(173,102,9));
+	al_clear_to_color(al_map_rgb(173,102,9));*/
 
-	treasure = al_load_bitmap("res/treasure.png");
+	//treasure = al_load_bitmap("res/treasure.png");
+
+	
+
 
 	air = al_create_bitmap(50,50);
-	al_set_target_bitmap(air);
-	al_clear_to_color(al_map_rgb(82,223,255));
 
-	rock = al_load_bitmap("res/rock.png");
+
+	//rock = al_load_bitmap("res/rock.png");
 	grass = al_load_bitmap("res/grass.png");
+	ground = al_load_bitmap("res/dirt.png");
+	digged = al_load_bitmap("res/dig.png");
+
+	ALLEGRO_BITMAP * tmp;
+
+	tmp = al_load_bitmap("res/treasure.png");
+
+	treasure = al_create_bitmap(50,50);
+	al_set_target_bitmap(treasure);
+	al_draw_bitmap(ground,0,0,0);
+	al_draw_bitmap(tmp,5,5,0);
+
+	rock = al_create_bitmap(50,50);
+	al_set_target_bitmap(rock);
+	al_draw_bitmap(ground,0,0,0);
+	al_draw_bitmap(al_load_bitmap("res/rock_1.png"),6,3,0);
+
+	al_destroy_bitmap(tmp);
 }
 
 
@@ -88,7 +108,7 @@ bool TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 void TileMap::BreakTile(int x, int y)
 {
 	if(Images[y][x] == ground || Images[y][x] == grass)
-		Images[y][x] = air;
+		Images[y][x] = digged;
 }
 
 list<Sprite*>::iterator TileMap::getFirstObject()

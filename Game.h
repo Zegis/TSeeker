@@ -29,6 +29,8 @@ private:
 	ALLEGRO_BITMAP * playerBMP;
 	ALLEGRO_BITMAP* followerBMP;
 
+	ALLEGRO_BITMAP* background;
+
 	ALLEGRO_FONT* font;
 	ALLEGRO_FONT* msgFont;
 

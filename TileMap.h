@@ -31,6 +31,7 @@ public:
 	ALLEGRO_BITMAP* treasure;
 	ALLEGRO_BITMAP* air;
 	ALLEGRO_BITMAP* rock;
+	ALLEGRO_BITMAP* digged;
 
 	ALLEGRO_BITMAP* playerBMP;
 

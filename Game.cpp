@@ -16,9 +16,20 @@ Game::Game(void)
 		al_register_event_source(evQueue, al_get_keyboard_event_source());
 		al_register_event_source(evQueue, al_get_timer_event_source(timer));
 
-		playerBMP = al_load_bitmap("res/player.png");
+		ALLEGRO_BITMAP* tmp;
+		tmp = al_load_bitmap("res/player.png");
 
+		/*playerBMP = al_create_bitmap(50,50);
+
+		al_set_target_bitmap(playerBMP);
+		al_draw_tinted_bitmap(tmp, al_map_rgba_f(0.65,0.65,0.65,0.65), 8, 0, 0);*/
+
+		al_destroy_bitmap(tmp);
+
+		playerBMP = al_load_bitmap("res/player.png");
 		followerBMP = al_load_bitmap("res/follower.png");
+
+		background = al_load_bitmap("res/sky.png");
 
 		font = al_load_ttf_font("res/pirulen.ttf",40,0);
 		msgFont = al_load_ttf_font("res/pirulen.ttf", 16,0);
@@ -360,7 +371,8 @@ Sprite* Game::GetSpriteCollision(Sprite* object)
 
 void Game::Draw()
 {
-	al_clear_to_color(al_map_rgb(0,0,0));
+	//al_clear_to_color(al_map_rgb(0,0,0));
+	al_draw_bitmap(background,0,0,0);
 
 	for(int y=0; y<10; y++)
 		for(int x=0; x<7; x++)

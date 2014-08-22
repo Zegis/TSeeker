@@ -3,19 +3,9 @@
 
 TileMap::TileMap(void)
 {
-	/*ground = al_create_bitmap(50,50);
-	al_set_target_bitmap(ground);
-	al_clear_to_color(al_map_rgb(173,102,9));*/
-
-	//treasure = al_load_bitmap("res/treasure.png");
-
-	
-
-
 	air = al_create_bitmap(50,50);
 
 
-	//rock = al_load_bitmap("res/rock.png");
 	grass = al_load_bitmap("res/grass.png");
 	ground = al_load_bitmap("res/dirt.png");
 	digged = al_load_bitmap("res/dig.png");

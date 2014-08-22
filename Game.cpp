@@ -19,11 +19,6 @@ Game::Game(void)
 		ALLEGRO_BITMAP* tmp;
 		tmp = al_load_bitmap("res/player.png");
 
-		/*playerBMP = al_create_bitmap(50,50);
-
-		al_set_target_bitmap(playerBMP);
-		al_draw_tinted_bitmap(tmp, al_map_rgba_f(0.65,0.65,0.65,0.65), 8, 0, 0);*/
-
 		al_destroy_bitmap(tmp);
 
 		playerBMP = al_load_bitmap("res/player.png");
@@ -326,12 +321,14 @@ bool Game::CheckForTileCollision(int newX, int newY, bool isFollower)
 	else if( newX == follower->getX() && newY == follower->getY())
 		return false;
 
+	ALLEGRO_BITMAP* tileToCheck = map->getTile(newX,newY);
+
 	if (newX < 0 || newX > 6 || newY > 9)
 		return false;
-	else if(map->getTile(newX,newY) == map->air)
+	else if(tileToCheck == map->air || tileToCheck == map->digged)
 		return true;
 
-	else if( (map->getTile(newX,newY) == map->ground || map->getTile(newX,newY) == map->grass ) && !isFollower)
+	else if( (tileToCheck == map->ground || tileToCheck == map->grass ) && !isFollower)
 	{
 		map->BreakTile(newX,newY);
 		return true;

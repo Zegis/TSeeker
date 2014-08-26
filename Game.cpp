@@ -61,18 +61,20 @@ bool Game::InitializeAllegro()
 
 Game::~Game(void)
 {
-
-	al_destroy_bitmap(playerBMP);
-
 	delete map;
 	delete player;
+	delete follower;
 
 	DeinitializeAllegro();
 }
 
 void Game::DeinitializeAllegro()
 {
+	al_destroy_bitmap(playerBMP);
+	al_destroy_bitmap(followerBMP);
+
 	al_destroy_font(font);
+	al_destroy_font(msgFont);
 	al_destroy_display(display);
 	al_destroy_event_queue(evQueue);
 	al_destroy_timer(timer);
@@ -368,7 +370,6 @@ Sprite* Game::GetSpriteCollision(Sprite* object)
 
 void Game::Draw()
 {
-	//al_clear_to_color(al_map_rgb(0,0,0));
 	al_draw_bitmap(background,0,0,0);
 
 	for(int y=0; y<10; y++)

@@ -5,7 +5,6 @@ TileMap::TileMap(void)
 {
 	air = al_create_bitmap(50,50);
 
-
 	grass = al_load_bitmap("res/grass.png");
 	ground = al_load_bitmap("res/dirt.png");
 	digged = al_load_bitmap("res/dig.png");
@@ -34,12 +33,25 @@ TileMap::~TileMap(void)
 		for(int j=0; j<7; ++j)
 			Images[i][j] = NULL;
 
-	objects.clear();
+	destroyObjectsOnMap();
 
 	al_destroy_bitmap(ground);
 	al_destroy_bitmap(treasure);
 	al_destroy_bitmap(air);
 	al_destroy_bitmap(rock);
+}
+
+VOID TileMap::destroyObjectsOnMap()
+{
+	if(objects.size() > 0)
+	{
+		list<Sprite*>::iterator it = objects.begin();
+		while(it != objects.end())
+		{
+			delete (*it);
+			objects.erase(it++);
+		}
+	}
 }
 
 ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
@@ -50,6 +62,8 @@ ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 bool TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 {
 	fstream mapFile(mapName, fstream::in);
+
+	destroyObjectsOnMap();
 
 	if(mapFile)
 	{

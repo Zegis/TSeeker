@@ -24,6 +24,8 @@ public:
 	TileMap(void);
 	~TileMap(void);
 
+	void destroyObjectsOnMap();
+
 	ALLEGRO_BITMAP* getTile(int x, int y);
 
 	ALLEGRO_BITMAP* ground;

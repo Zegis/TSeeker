@@ -18,10 +18,17 @@ TileMap::TileMap(void)
 	al_draw_bitmap(ground,0,0,0);
 	al_draw_bitmap(tmp,5,5,0);
 
-	rock = al_create_bitmap(50,50);
-	al_set_target_bitmap(rock);
-	al_draw_bitmap(ground,0,0,0);
-	al_draw_bitmap(al_load_bitmap("res/rock_1.png"),6,3,0);
+	string rockName = "res/rock_X.png";
+
+	for(int i=0; i<6; i++)
+	{
+		rockName[9] = (char)(49+i);
+		
+		rock[i] = al_create_bitmap(50,50);
+		al_set_target_bitmap(rock[i]);
+		al_draw_bitmap(ground,0,0,0);
+		al_draw_bitmap(al_load_bitmap(rockName.c_str()),6,3,0);
+	}
 
 	al_destroy_bitmap(tmp);
 }
@@ -38,7 +45,8 @@ TileMap::~TileMap(void)
 	al_destroy_bitmap(ground);
 	al_destroy_bitmap(treasure);
 	al_destroy_bitmap(air);
-	al_destroy_bitmap(rock);
+	for(int i=0; i<6; ++i)
+		al_destroy_bitmap(rock[i]);
 }
 
 VOID TileMap::destroyObjectsOnMap()
@@ -61,6 +69,8 @@ ALLEGRO_BITMAP* TileMap::getTile(int x, int y)
 
 bool TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 {
+	srand(time(NULL));
+
 	fstream mapFile(mapName, fstream::in);
 
 	destroyObjectsOnMap();
@@ -90,7 +100,7 @@ bool TileMap::LoadMap(string mapName, Sprite* player, Sprite* follower)
 					follower->setY(y);
 				}
 				else if (mapLine[i] == '0') Images[y][i] = ground;
-				else if (mapLine[i] == 'R') Images[y][i] = rock;
+				else if (mapLine[i] == 'R') Images[y][i] = rock[rand()%6];
 				else if (mapLine[i] == 'G') Images[y][i] = grass;
 				else if (mapLine[i] == '1'){
 					Images[y][i] = air;

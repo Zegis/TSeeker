@@ -7,6 +7,9 @@
 #include <fstream>
 #include <iostream>
 
+#include<stdlib.h>
+#include<time.h>
+
 using std::string;
 using std::fstream;
 using std::getline;
@@ -32,7 +35,7 @@ public:
 	ALLEGRO_BITMAP* grass;
 	ALLEGRO_BITMAP* treasure;
 	ALLEGRO_BITMAP* air;
-	ALLEGRO_BITMAP* rock;
+	ALLEGRO_BITMAP* rock[6];
 	ALLEGRO_BITMAP* digged;
 
 	ALLEGRO_BITMAP* playerBMP;
